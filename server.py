@@ -8,22 +8,22 @@ Session = sessionmaker(engine)
 session = Session()
 
 
-class Cadastro(Base):
+class Registration(Base):
     __tablename__ = 'cadastros'
     id = Column(Integer, primary_key=True)
     email = Column(Text)
-    senha = Column(Text)
+    password = Column(Text)
 
 
-def addCadastro(cadastro: Cadastro):
+def addRegistration(registration: Registration):
     global session, Base
     Base.metadata.create_all(engine)
-    session.add(cadastro)
+    session.add(registration)
     session.commit()
 
 
-def verificarCadastro(email: str, senha_hash: str):
-    global session, Cadastro
-    if session.query(Cadastro).filter(Cadastro.email==email, Cadastro.senha==senha_hash).all():
+def verifyUser(email: str, password_hash: str):
+    global session, Registration
+    if session.query(Registration).filter(Registration.email == email, Registration.password == password_hash).all():
         return True
     return False
